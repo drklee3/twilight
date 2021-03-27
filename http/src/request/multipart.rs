@@ -2,13 +2,20 @@ use rand::{distributions::Alphanumeric, Rng};
 
 #[derive(Debug)]
 pub struct Form {
-    boundary: [u8; 15],
+    boundary: Vec<u8>,
     buffer: Vec<u8>,
 }
 
 impl Form {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn new_with_boundary(boundary: &[u8]) -> Self {
+        Self {
+            boundary: boundary.into(),
+            buffer: Vec::new(),
+        }
     }
 
     pub fn build(mut self) -> Vec<u8> {
@@ -46,6 +53,19 @@ impl Form {
         self
     }
 
+    pub fn bytes(&mut self, bytes: &[u8]) -> &mut Self {
+        self.buffer.clear();
+        self.buffer.extend(bytes);
+
+        self
+    }
+
+    pub fn set_boundary(&mut self, boundary: &[u8]) -> &mut Self {
+        self.boundary = boundary.into();
+
+        self
+    }
+
     fn start(&mut self) {
         self.buffer.extend(b"\r\n");
         self.boundary();
@@ -77,7 +97,7 @@ impl Form {
 
 impl Default for Form {
     fn default() -> Self {
-        let mut boundary = [0; 15];
+        let mut boundary = vec![0; 15];
         let mut rng = rand::thread_rng();
 
         for value in &mut boundary {

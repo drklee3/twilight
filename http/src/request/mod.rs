@@ -66,13 +66,13 @@ pub mod channel;
 pub mod guild;
 pub mod prelude;
 pub mod user;
+pub mod multipart;
 
 mod audit_reason;
 mod get_gateway;
 mod get_gateway_authed;
 mod get_user_application;
 mod get_voice_regions;
-mod multipart;
 mod validate;
 
 pub use self::{
