@@ -106,7 +106,7 @@ pub struct Request {
     /// The URI path to request.
     pub path_str: Cow<'static, str>,
     /// Whether to use the client's authorization token in the request.
-    pub(crate) use_authorization_token: bool,
+    pub use_authorization_token: bool,
 }
 
 impl Request {
